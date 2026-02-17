@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Investment Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <p>Balance</p>
+        <h2>$ 5,240.00</h2>
+    </div>
+    <ul>
+        <li onclick="switchPage('homePage')">Home</li>
+        <li onclick="switchPage('depositPage')">Deposit</li>
+        <li onclick="switchPage('withdrawPage')">Withdraw</li>
+        <li onclick="switchPage('transferPage')">Transfer</li>
+        <li onclick="switchPage('transactionsPage')">Transactions</li>
+        <li onclick="switchPage('walletPage')">Wallet</li>
+        <li onclick="switchPage('settingsPage')">Settings</li>
+        <li onclick="switchPage('supportPage')">Support</li>
+    </ul>
+</div>
+
+<div class="overlay" id="overlay"></div>
+
+<div class="topbar">
+    <div class="menu-btn" onclick="openMenu()">☰</div>
+    <strong>Port-Prime</strong>
+    <h3>Port-Prime</h3>
+</div>
+
+<div class="container">
+
+<!-- HOME -->
+<div class="page active" id="homePage">
+<div class="balance-card">
+    <p>Available Balance</p>
+    <h2>$ 5,240.00</h2>
+    <div class="actions">
+        <div class="action-btn withdraw" onclick="switchPage('withdrawPage')">Withdraw</div>
+        <div class="action-btn transfer" onclick="switchPage('transferPage')">Transfer</div>
+        <div class="action-btn deposit" onclick="switchPage('depositPage')">Deposit</div>
+    </div>
+</div>
+
+<div class="stats-grid">
+    <div class="stat-box">
+        <h4>Total Investment</h4>
+        <h3>$ 12,500</h3>
+    </div>
+    <div class="stat-box">
+        <h4>Total Profit</h4>
+        <h3>$ 2,140</h3>
+    </div>
+    <div class="stat-box">
+        <h4>Active Plans</h4>
+        <h3>3 Plans</h3>
+    </div>
+    <div class="stat-box">
+        <h4>Pending Withdrawals</h4>
+        <h3>$ 500</h3>
+    </div>
+</div>
+
+<div class="transactions">
+    <h3>Recent Transactions</h3>
+    <table>
+        <tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th></tr>
+        <tr><td>15 Feb 2026</td><td>Deposit</td><td>$1,000</td><td class="status-success">Completed</td></tr>
+        <tr><td>14 Feb 2026</td><td>Withdrawal</td><td>$500</td><td class="status-pending">Pending</td></tr>
+        <tr><td>12 Feb 2026</td><td>Transfer</td><td>$300</td><td class="status-success">Completed</td></tr>
+        <tr><td>10 Feb 2026</td><td>Deposit</td><td>$2,000</td><td class="status-failed">Failed</td></tr>
+    </table>
+</div>
+
+<div class="referral">
+    <div class="referral-icon">🔗</div>
+    <h3>Refer a Friend</h3>
+    <p>Invite friends and earn rewards!</p>
+    <div class="ref-link-box">
+        <span id="refLink">https://equitehub.com/register.php?ref=Sara</span>
+        <button class="copy-btn" onclick="copyReferral()">Copy</button>
+    </div>
+    <p id="copyMsg" style="color: var(--deposit); display:none; margin-top:10px;">Referral link copied!</p>
+</div>
+
+</div>
+
+<!-- DEPOSIT MULTI-STEP -->
+<div class="page" id="depositPage">
+  <div class="plans active" id="plansSection">
+    <h2>Select Investment Plan</h2>
+    <div class="plan-card" data-plan="PLAN 1 (10%)" data-min="100" data-max="2999">
+        <h3>🔰 PLAN 1 (10%)</h3>
+      <p>Minimum: $100</p>
+      <p>Maximum: $2,999</p>
+      <p>ROI: 10%</p>
+      <p>Duration: 24 Hours</p>
+      <p>Instant Withdrawal</p>
+    </div>
+    <div class="plan-card" data-plan="PLAN 2 (20%)" data-min="3000" data-max="9999">
+      <h3>🔰 PLAN 2 (20%)</h3>
+      <p>Minimum: $3,000</p>
+      <p>Maximum: $9,999</p>
+      <p>ROI: 20%</p>
+      <p>Duration: 48 Hours</p>
+      <p>Instant Withdrawal</p>
+    </div>
+    <div class="plan-card" data-plan="PLAN 3 (30%)" data-min="1000" data-max="unlimited">
+      <h3>🔰 PLAN 3 (30%)</h3>
+      <p>Minimum: $1,000</p>
+      <p>Maximum: Unlimited</p>
+      <p>ROI: 30%</p>
+      <p>Duration: 7 Days</p>
+      <p>Instant Withdrawal</p>
+    </div>
+    <div class="plan-card" data-plan="PLAN 4 (50%)" data-min="10000" data-max="49999">
+      <h3>🔰 PLAN 4 (50%)</h3>
+      <p>Minimum: $10,000</p>
+      <p>Maximum: $49,999</p>
+      <p>ROI: 50%</p>
+      <p>Duration: 48 Hours</p>
+      <p>Instant Withdrawal</p>
+    </div>
+    <div class="plan-card" data-plan="PLAN 5 (100%)" data-min="50000" data-max="unlimited">
+      <h3>🔰 PLAN 5 (100%)</h3>
+      <p>Minimum: $50,000</p>
+      <p>Maximum: Unlimited</p>
+      <p>ROI: 100%</p>
+      <p>Duration: 72 Hours</p>
+      <p>Instant Withdrawal</p>
+    </div>
+  </div>
+
+  <div class="form-section" id="formSection">
+    <h2 id="selectedPlanTitle">Deposit Form</h2>
+    <form id="depositForm">
+      <div class="form-group">
+        <label>Deposit Amount ($)</label>
+        <input type="number" id="amount" required>
+      </div>
+      <div class="form-group">
+        <label>Payment Method</label>
+        <select id="method" required>
+          <option value="">Select Method</option>
+          <option>BITCOIN (BTC)</option>
+          <option>USDT (TRC20)</option>
+          <option>USDT (ERC20)</option>
+          <option>ETHEREUM</option>
+          <option>BNB (BEP20)</option>
+        </select>
+      </div>
+      <button type="submit">Proceed</button>
+      <div id="errorMsg" class="error"></div>
+    </form>
+  </div>
+
+  <div class="success-section" id="successSection">
+    <h2>Deposit Submitted ✅</h2>
+    <p>Send the exact amount to the wallet below:</p>
+    <div class="wallet-box">
+      <p><strong>Company Wallet Address:</strong></p>
+      <p id="walletAddress">0x123456789ABCDEF9876543210ABCDEF</p>
+      <button class="copy-btn" onclick="copyWallet()">Copy Address</button>
+    </div>
+  </div>
+</div>
+
+<!-- Other Pages (Withdraw, Transfer, etc.) starts here -->
+
+
+<!-- WITHDRAW MULTI-STEP -->
+<div class="page" id="withdrawPage">
+  <!-- STEP 1: Withdrawal Form -->
+  <div class="form-section active" id="withdrawFormSection">
+    <h2>Withdrawal Form</h2>
+   
+    <form id="withdrawForm">
+      <div class="form-group">
+        <label>Amount ($)</label>
+        <input type="number" id="withdrawAmount" placeholder="Enter withdrawal amount" required>
+      </div>
+      <div class="form-group">
+        <label>Wallet Type</label>
+        <select id="withdrawWallet" required>
+          <option value="">Select Wallet</option>
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="USDT-TRC20">USDT (TRC20)</option>
+          <option value="USDT-ERC20">USDT (ERC20)</option>
+          <option value="ETH">Ethereum</option>
+          <option value="BNB">BNB (BEP20)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Wallet Address</label>
+        <input type="text" id="withdrawAddress" placeholder="Enter wallet address" required>
+      </div>
+      <button type="submit" class="withdraw-btn">Submit Withdrawal</button>
+      <div id="withdrawError" class="error"></div>
+    </form>
+  </div>
+
+  <!-- STEP 2: Success Confirmation -->
+  <div class="success-section" id="withdrawSuccessSection">
+    <h2>Withdrawal Submitted ✅</h2>
+    <div class="wallet-box">
+      <p>Amount: <strong id="successAmount"></strong></p>
+      <p>Wallet: <strong id="successWallet"></strong></p>
+      <p>Address: <strong id="successAddress"></strong></p>
+      <button class="copy-btn" onclick="copyWithdrawDetails()">Copy Details</button>
+    </div>
+  </div>
+</div>
+
+<div class="page" id="transferPage">
+    <div class="card-section">
+        <h3>Transfer Funds</h3>
+        <input type="text" placeholder="Recipient Username">
+        <input type="number" id="transferAmount" placeholder="Amount">
+        <button onclick="submitTransfer()">Submit Transfer</button>
+        <p id="transferMsg" style="display:none;color:#16A34A;margin-top:10px;">
+            Transfer completed successfully!
+        </p>
+    </div>
+</div>
+
+<!-- TRANSACTIONS PAGE -->
+<div class="page" id="transactionsPage">
+  <div class="card-section">
+    <h3>Transaction History</h3>
+
+    <!-- Filter & Search -->
+    <div class="filter-search" style="display:flex; gap:10px; flex-wrap:wrap; margin-bottom:15px;">
+      <select id="filterType">
+        <option value="all">All Types</option>
+        <option value="deposit">Deposit</option>
+        <option value="withdrawal">Withdrawal</option>
+        <option value="transfer">Transfer</option>
+      </select>
+      <input type="text" id="searchInput" placeholder="Search by amount, wallet or date" style="flex:1;">
+    </div>
+
+    <!-- Transactions Table -->
+    <div class="transactions-table" style="overflow-x:auto;">
+      <table id="transactionsTable">
+        <thead>
+          <tr>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Amount</th>
+            <th>Status</th>
+            <th>Wallet</th>
+            <th>Address</th>
+          </tr>
+        </thead>
+        <tbody id="transactionsBody">
+          <!-- JS will populate this dynamically -->
+        </tbody>
+      </table>
+    </div>
+
+    <!-- No transactions message -->
+    <p id="noTransactions" style="display:none; text-align:center; margin-top:20px; color:var(--muted);">
+      No transactions found.
+    </p>
+  </div>
+</div>
+
+<!-- WALLET PAGE -->
+<div class="page" id="walletPage">
+  <div class="card-section">
+    <h3>Manage Wallets</h3>
+
+    <!-- Add Wallet Form -->
+    <form id="walletForm">
+      <div class="form-group">
+        <label for="walletType">Wallet Type</label>
+        <select id="walletType" required>
+          <option value="">Select Wallet</option>
+          <option value="BTC">Bitcoin (BTC)</option>
+          <option value="ETH">Ethereum (ETH)</option>
+          <option value="USDT-TRC20">USDT (TRC20)</option>
+          <option value="USDT-ERC20">USDT (ERC20)</option>
+          <option value="BNB">BNB (BEP20)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="walletAddress">Wallet Address</label>
+        <input type="text" id="walletAddress" required placeholder="Enter wallet address">
+      </div>
+      <button type="submit">Add Wallet</button>
+      <div class="message" id="walletMsg"></div>
+    </form>
+
+    <!-- Wallet Cards -->
+    <div id="walletsContainer" style="margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px;">
+      <!-- Wallet cards injected by JS -->
+    </div>
+    <p id="noWallets" style="display:none; text-align:center; margin-top:20px; color:var(--deposit);">
+      No wallets saved. Add one above to get started.
+    </p>
+  </div>
+</div>
+
+<!-- SETTINGS PAGE -->
+<div class="page" id="settingsPage">
+  <div class="container">
+
+    <div class="card-section">
+      <h3>Profile Settings</h3>
+      <form id="profileForm">
+        <div class="form-group">
+          <label for="username">Username</label>
+          <input type="text" id="username" placeholder="Enter your username" required>
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" placeholder="Enter your email" required>
+        </div>
+        <button type="submit">Update Profile</button>
+        <div class="message" id="profileMsg"></div>
+      </form>
+    </div>
+
+    <div class="card-section">
+      <h3>Change Password</h3>
+      <form id="passwordForm">
+        <div class="form-group">
+          <label for="currentPass">Current Password</label>
+          <input type="password" id="currentPass" placeholder="Enter current password" required>
+        </div>
+        <div class="form-group">
+          <label for="newPass">New Password</label>
+          <input type="password" id="newPass" placeholder="Enter new password" required>
+        </div>
+        <div class="form-group">
+          <label for="confirmPass">Confirm New Password</label>
+          <input type="password" id="confirmPass" placeholder="Confirm new password" required>
+        </div>
+        <button type="submit">Change Password</button>
+        <div class="message" id="passwordMsg"></div>
+      </form>
+    </div>
+
+    <div class="card-section">
+      <h3>Preferences</h3>
+      <div class="form-group">
+        <label>Theme</label>
+        <select id="themeSelect">
+          <option value="dark">Dark</option>
+          <option value="light">Light</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="card-section">
+      <h3>Account Actions</h3>
+      <button id="resetAccount">Reset Account</button>
+      <div class="message" id="resetMsg"></div>
+    </div>
+
+  </div>
+</div>
+
+<!-- SUPPORT PAGE -->
+<div class="page" id="supportPage">
+  <div class="container">
+
+    <div class="card-section">
+      <h3>Contact Support</h3>
+      <form id="supportForm">
+        <div class="form-group">
+          <label for="supportName">Your Name</label>
+          <input type="text" id="supportName" placeholder="Enter your name" required>
+        </div>
+        <div class="form-group">
+          <label for="supportEmail">Email</label>
+          <input type="email" id="supportEmail" placeholder="Enter your email" required>
+        </div>
+        <div class="form-group">
+          <label for="supportSubject">Subject</label>
+          <input type="text" id="supportSubject" placeholder="Subject" required>
+        </div>
+        <div class="form-group">
+          <label for="supportMessage">Message</label>
+          <textarea id="supportMessage" rows="5" placeholder="Write your message..." required></textarea>
+        </div>
+        <button type="submit">Submit Ticket</button>
+        <div class="message" id="supportMsg"></div>
+      </form>
+    </div>
+
+    <div class="card-section">
+      <h3>Direct Support Info</h3>
+      <p><strong>Email:</strong> support@equitehub.com</p>
+      <p><strong>Phone:</strong> +1 234 567 8900</p>
+      <p>We typically respond within 24 hours.</p>
+    </div>
+
+  </div>
+</div>
+
+</div>
+<div class="bottom-nav">
+    <div onclick="switchPage('homePage')"><img src="resource/home (1).png" alt=""><br>Home</div>
+    <div onclick="switchPage('depositPage')"><img src="resource/wallet (1).png" alt=""><br>Deposit</div>
+    <div onclick="switchPage('withdrawPage')"><img src="resource/withdraw.png" alt=""><br>Withdraw</div>
+    <div onclick="switchPage('settingsPage')"><img src="resource/mechanical-gears-.png" alt=""><br>Settings</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

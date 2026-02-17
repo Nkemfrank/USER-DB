@@ -1,0 +1,412 @@
+:root {
+    --bg: #0F0E47;
+    --card: #272757;
+    --surface: #505081;
+    --muted: #8686AC;
+    --text: #ffffff;
+    --deposit: #16A34A;
+    --withdraw: #DC2626;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+}
+
+/* TOPBAR */
+.topbar {
+    background: var(--card);
+    padding: 15px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.menu-btn { font-size: 22px; cursor: pointer; }
+
+/* SIDEBAR */
+.sidebar {
+    position: fixed;
+    top: 0; left: -280px;
+    width: 280px; height: 100%;
+    background: var(--card);
+    transition: 0.4s ease;
+    z-index: 1000;
+    overflow-y: auto;
+}
+.sidebar.active { left: 0; }
+.sidebar-header {
+    background: var(--surface);
+    padding: 25px 20px;
+}
+.sidebar ul { list-style: none; padding: 20px; }
+.sidebar ul li {
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    cursor: pointer;
+}
+
+/* OVERLAY */
+.overlay {
+    position: fixed;
+    top:0; left:0;
+    width:100%; height:100%;
+    background: rgba(0,0,0,.6);
+    display:none;
+}
+.overlay.active { display:block; }
+
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+/* CARDS */
+.balance-card, .stat-box, .transactions, .referral, .wallet-card, .card-section {
+    background: var(--card);
+    padding: 20px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.stats-grid {
+    display:grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px,1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.stat-box h4 { font-size:14px; color:var(--muted); margin-bottom:8px; }
+.stat-box h3 { font-size:20px; }
+
+.actions {
+    display:flex;
+    gap:15px;
+    margin-top:15px;
+    flex-wrap:wrap;
+}
+
+.action-btn {
+    flex:1; min-width:120px;
+    padding:15px;
+    border-radius:10px;
+    text-align:center;
+    cursor:pointer;
+    color:#fff;
+}
+
+.withdraw { background: var(--withdraw); }
+.deposit { background: var(--deposit); }
+.transfer { background: var(--surface); }
+
+input, select {
+    width:100%;
+    padding:10px;
+    margin-top:10px;
+    background: var(--surface);
+    border:none;
+    color: var(--text);
+    border-radius:6px;
+}
+
+button {
+    margin-top:15px;
+    padding:10px;
+    width:100%;
+    background: var(--deposit);
+    border:none;
+    color:#fff;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+/* TABLE */
+.transactions table { width:100%; border-collapse: collapse; }
+.transactions th, .transactions td { padding:12px; text-align:left; }
+.transactions tr { border-bottom:1px solid var(--surface); }
+.status-success { color: var(--deposit); }
+.status-pending { color:#F59E0B; }
+.status-failed { color: var(--withdraw); }
+
+/* REFERRAL */
+.referral { text-align:center; background: var(--card); padding:20px; border-radius:15px; margin-top:20px; }
+.referral-icon { font-size:28px; width:70px; height:70px; border-radius:50%; background:var(--deposit); display:flex; justify-content:center; align-items:center; margin:auto; }
+.ref-link-box { background: var(--surface); padding:12px; border-radius:10px; margin-top:15px; display:flex; justify-content:space-between; align-items:center; }
+.copy-btn { background:var(--surface); border:none; padding:8px 15px; border-radius:6px; cursor:pointer; color:#fff; }
+
+/* MULTI-STEP DEPOSIT */
+.plans, .form-section, .success-section { display:none; }
+.plans.active, .form-section.active, .success-section.active { display:block; }
+
+.plan-card {
+    background: var(--surface);
+    border-radius: 10px;
+    padding: 18px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: 0.3s ease;
+    border: 2px solid transparent;
+}
+.plan-card:hover { border-color: var(--muted); transform: scale(1.02); }
+.form-group { margin-bottom: 15px; }
+label { display:block; margin-bottom:6px; font-weight:bold; color:var(--muted); }
+
+.wallet-box { background: var(--surface); padding:20px; margin-top:15px; text-align:center; border-radius:10px; }
+
+.error { color: #ff6b6b; margin-top:10px; text-align:center; }
+
+@media (max-width: 600px) {
+  .container { margin: 20px; padding: 20px; }
+}
+
+/* BOTTOM NAV */
+.bottom-nav {
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background: var(--card);
+    display:flex;
+    justify-content: space-around;
+    padding:10px 0;
+}
+.bottom-nav div { text-align:center; font-size:13px; cursor:pointer; }
+
+/* DESKTOP */
+@media(min-width:900px){
+    .sidebar { left:0; }
+    .overlay { display:none !important; }
+    .container { margin-left:280px; }
+    .menu-btn { display:none; }
+}
+
+
+
+/* Transactions Table Styling */
+.transactions-table table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.transactions-table th, .transactions-table td {
+  padding: 12px;
+  text-align: left;
+  font-size: 14px;
+}
+
+.transactions-table th {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.transactions-table tr {
+  border-bottom: 1px solid var(--surface);
+  transition: background 0.2s ease;
+}
+
+.transactions-table tr:hover {
+  background: rgba(255,255,255,0.05);
+}
+
+.status-success { color: var(--deposit); font-weight:600; }
+.status-pending { color: #F59E0B; font-weight:600; }
+.status-failed { color: var(--withdraw); font-weight:600; }
+
+/* Responsive for mobile */
+@media(max-width:768px){
+  .transactions-table th, .transactions-table td { padding:8px; font-size:13px; }
+  .filter-search { flex-direction:column; }
+}
+
+
+
+
+
+/* Wallet Cards */
+.wallet-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.wallet-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+}
+
+.wallet-card h4 { font-size:16px; color: var(--text); margin:0; }
+.wallet-card p { font-size:14px; color:#ccc; margin:0; word-break: break-all; }
+
+.wallet-card button {
+  flex:1;
+  padding:8px 10px;
+  border-radius:6px;
+  border:none;
+  cursor:pointer;
+  font-size:14px;
+  transition: background 0.2s ease;
+}
+
+.wallet-card button.copy-btn { background: var(--deposit); color:#fff; }
+.wallet-card button.copy-btn:hover { background:#16c85b; }
+
+.wallet-card button.remove-btn { background: var(--withdraw); color:#fff; }
+.wallet-card button.remove-btn:hover { background:#b91c1c; }
+
+.message {
+  margin-top:10px;
+  text-align:center;
+  font-weight:bold;
+  opacity:1;
+  transition: opacity 0.8s ease;
+}
+.message.success { color: var(--deposit); }
+.message.error { color: var(--withdraw); }
+
+/* Responsive */
+@media(max-width:480px){
+  #walletsContainer { grid-template-columns:1fr; }
+  .wallet-card { flex-direction: column; }
+  .wallet-card button { width:100%; margin-top:8px; }
+}
+
+
+
+
+/* SETTINGS PAGE */
+.card-section {
+  background: var(--card);
+  padding: 20px;
+  margin-bottom: 20px;
+  border-radius: 15px;
+}
+
+.card-section h3 {
+  color: var(--accent);
+  margin-bottom: 15px;
+  font-size: 1.3rem;
+}
+
+.card-section form .form-group {
+  margin-bottom: 15px;
+}
+
+.card-section input, 
+.card-section select, 
+.card-section button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 5px;
+  border-radius: 8px;
+  border: none;
+  font-size: 14px;
+  transition: all 0.3s ease;
+}
+
+.card-section input, .card-section select {
+  background: var(--surface);
+  color: var(--text);
+}
+
+.card-section input:focus, .card-section select:focus {
+  outline: none;
+  box-shadow: 0 0 6px var(--accent);
+}
+
+.card-section button {
+  background: var(--deposit);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.card-section button:hover {
+  background: #16c85b;
+  transform: translateY(-2px);
+}
+
+.message {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.message.success { color: var(--deposit); }
+.message.error { color: var(--withdraw); }
+
+/* Responsive */
+@media(max-width: 768px){
+  .card-section { padding: 15px; }
+  .card-section h3 { font-size: 1.1rem; }
+  .card-section input, .card-section select, .card-section button { font-size: 13px; }
+}
+
+
+
+
+
+
+/* SUPPORT PAGE */
+.card-section textarea {
+  width: 100%;
+  padding: 12px;
+  border-radius: 8px;
+  border: none;
+  background: var(--surface);
+  color: var(--text);
+  resize: vertical;
+  font-size: 14px;
+  transition: box-shadow 0.3s ease;
+}
+
+.card-section textarea:focus {
+  outline: none;
+  box-shadow: 0 0 6px var(--accent);
+}
+
+/* Button styling is shared with other pages */
+.card-section button {
+  background: var(--deposit);
+  color: #fff;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.card-section button:hover {
+  background: #16c85b;
+  transform: translateY(-2px);
+}
+
+/* Message styling */
+.message {
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+  opacity: 1;
+  transition: opacity 0.8s ease;
+}
+
+.message.success { color: var(--deposit); }
+.message.error { color: var(--withdraw); }
+
+/* Responsive */
+@media(max-width: 768px){
+  .card-section { padding: 15px; }
+  .card-section h3 { font-size: 1.1rem; }
+  input, select, textarea, button { font-size: 13px; }
+}
