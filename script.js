@@ -158,6 +158,9 @@ const withdrawForm = document.getElementById('withdrawForm');
 const withdrawError = document.getElementById('withdrawError');
 const withdrawSuccess = document.getElementById('withdrawSuccessSection');
 const withdrawFormSection = document.getElementById('withdrawFormSection');
+
+// Success detail elements
+const successAccount = document.getElementById('successAccount');
 const successAmount = document.getElementById('successAmount');
 const successWallet = document.getElementById('successWallet');
 const successAddress = document.getElementById('successAddress');
@@ -166,17 +169,26 @@ withdrawForm.addEventListener('submit', e => {
   e.preventDefault();
   withdrawError.textContent = "";
 
+  // Get values
+  const account = document.getElementById('withdrawAccount').value;
   const amount = parseFloat(document.getElementById('withdrawAmount').value);
   const wallet = document.getElementById('withdrawWallet').value;
   const address = document.getElementById('withdrawAddress').value.trim();
+  
+  // Example Balance
   const userBalance = 12500;
 
+  // Validation
+  if(!account){
+    withdrawError.textContent = "Please select the account you wish to withdraw from.";
+    return;
+  }
   if(isNaN(amount) || amount < 100){
     withdrawError.textContent = "Minimum withdrawal amount is $100.";
     return;
   }
   if(amount > userBalance){
-    withdrawError.textContent = "Cannot withdraw more than your balance.";
+    withdrawError.textContent = "Cannot withdraw more than your available balance.";
     return;
   }
   if(!wallet){
@@ -189,31 +201,31 @@ withdrawForm.addEventListener('submit', e => {
   }
 
   // Show success details
-  successAmount.textContent = `$${amount}`;
+  successAccount.textContent = account;
+  successAmount.textContent = `$${amount.toLocaleString()}`;
   successWallet.textContent = wallet;
   successAddress.textContent = address;
 
+  // UI Switch
   withdrawFormSection.style.display = "none";
   withdrawSuccess.style.display = "block";
 });
 
-// Optional: Copy withdrawal details
+// Copy withdrawal details
 function copyWithdrawDetails() {
-  const details = ` Amount: ${successAmount.textContent}\nWallet: ${successWallet.textContent}\nAddress: ${successAddress.textContent}`;
+  const details =`Account: ${successAccount.textContent}\nAmount: ${successAmount.textContent}\nWallet: ${successWallet.textContent}\nAddress: ${successAddress.textContent}`;
   navigator.clipboard.writeText(details).then(() => {
     alert("Withdrawal details copied!");
   });
 }
 
-// Reset withdraw page when switching away
+// Reset withdraw page
 function resetWithdrawPage() {
   withdrawFormSection.style.display = "block";
   withdrawSuccess.style.display = "none";
   withdrawForm.reset();
   withdrawError.textContent = "";
 }
-
-
 
 
 
@@ -275,68 +287,112 @@ searchInput.addEventListener("input", ()=> renderTransactions(filterType.value, 
 
 
 // --- Wallet Page JS ---
+// --- Elements Selection ---
 const walletForm = document.getElementById('walletForm');
-const walletType = document.getElementById('walletType');
-const walletAddress = document.getElementById('walletAddress');
 const walletsContainer = document.getElementById('walletsContainer');
-const walletMsg = document.getElementById('walletMsg');
-const noWallets = document.getElementById('noWallets');
+const noWalletsMsg = document.getElementById('noWallets');
+const walletFeedback = document.getElementById('walletFeedback');
 
-// Load wallets from localStorage
-let wallets = JSON.parse(localStorage.getItem('wallets')) || [];
-renderWallets();
+// Load wallets from LocalStorage
+let myWallets = JSON.parse(localStorage.getItem('port_prime_user_wallets')) || [];
 
-// Add Wallet
-walletForm.addEventListener('submit', e => {
-  e.preventDefault();
-  const type = walletType.value;
-  const address = walletAddress.value.trim();
+// Initial render of existing wallets
+renderAllWallets();
 
-  if (!type || !address) {
-    showWalletMsg("Please fill in all fields.", "error");
-    return;
-  }
+walletForm.addEventListener('submit', function(e) {
+    e.preventDefault();
 
-  // Prevent duplicate wallet addresses
-  if(wallets.some(w=> w.address === address)){
-    showWalletMsg("Wallet address already exists.", "error");
-    return;
-  }
+    const typeSelect = document.getElementById('newWalletType');
+    const addressInput = document.getElementById('newWalletAddress');
 
-  wallets.push({ type, address });
-  localStorage.setItem('wallets', JSON.stringify(wallets));
+    // SAFE ACCESS: Check if element exists before calling .trim()
+    if (!addressInput || !typeSelect) {
+        console.error("Wallet input elements missing from DOM.");
+        return;
+    }
 
-  walletForm.reset();
-  showWalletMsg("✅ Wallet added successfully!", "success");
-  renderWallets();
+    const type = typeSelect.value;
+    const address = addressInput.value.trim();
+
+    if (!type || !address) {
+        displayWalletStatus("Please fill in all fields", "#ff4d4d");
+        return;
+    }
+
+    // Check for duplicate addresses
+    if (myWallets.some(w => w.address === address)) {
+        displayWalletStatus("This address is already saved", "#ff8c00");
+        return;
+    }
+
+    // Add new wallet to array
+    myWallets.push({ type, address });
+    
+    // Save to browser memory and refresh list
+    saveToLocalStorage();
+    
+    walletForm.reset();
+    displayWalletStatus("✅ Wallet added successfully!", "#28a745");
 });
 
+function renderAllWallets() {
+    walletsContainer.innerHTML = "";
 
-// Render Wallets
-function renderWallets() {
-  walletsContainer.innerHTML = "";
+    if (myWallets.length === 0) {
+        noWalletsMsg.style.display = "block";
+        return;
+    }
 
-  if(wallets.length === 0){
-    noWallets.style.display = "block";
-    return;
-  } else {
-    noWallets.style.display = "none";
-  }
+    noWalletsMsg.style.display = "none";
 
-  wallets.forEach((w,index) => {
-    const card = document.createElement('div');
-    card.className = "wallet-card";
-    card.innerHTML = `
-      <h4>${w.type}</h4>
-      <p><strong>Address:</strong> ${w.address}</p>
-      <div style="display:flex; gap:10px; flex-wrap:wrap;">
-        <button class="copy-btn" onclick="copyWallet('${w.address}')">Copy</button>
-        <button class="remove-btn" onclick="removeWallet(${index})">Remove</button>
-      </div>`
-    ;
-    walletsContainer.appendChild(card);
-  });
+    myWallets.forEach((wallet, index) => {
+        const card = document.createElement('div');
+        // Reusing your existing responsive card styles
+        card.className = "stat-box"; 
+        card.style.textAlign = "left";
+        
+        card.innerHTML = `
+            <div style="color: #ff8c00; font-weight: bold; font-size: 14px; margin-bottom: 5px;">${wallet.type}</div>
+            <div style="font-size: 11px; word-break: break-all; color: #ccc; margin-bottom: 15px;">${wallet.address}</div>
+            <div style="display: flex; gap: 8px;">
+                <button onclick="copyWalletText('${wallet.address}')" class="copy-btn" style="flex: 1; padding: 6px; font-size: 11px;">Copy</button>
+                <button onclick="deleteWalletEntry(${index})" style="flex: 1; padding: 6px; font-size: 11px; background: rgba(255,0,0,0.1); color: #ff4d4d; border: 1px solid #ff4d4d; border-radius: 4px; cursor: pointer;">Delete</button>
+            </div>`
+        ;
+        walletsContainer.appendChild(card);
+    });
 }
+
+function deleteWalletEntry(index) {
+    if (confirm("Permanently delete this wallet?")) {
+        myWallets.splice(index, 1);
+        saveToLocalStorage();
+    }
+}
+
+function copyWalletText(text) {
+    navigator.clipboard.writeText(text).then(() => {
+        alert("Wallet address copied to clipboard!");
+    });
+}
+
+function saveToLocalStorage() {
+    localStorage.setItem('port_prime_user_wallets', JSON.stringify(myWallets));
+    renderAllWallets();
+}
+
+// FIX FOR THE 'MESSAGE IS NOT DEFINED' ERROR
+function displayWalletStatus(text, color) {
+    if (walletFeedback) {
+        walletFeedback.textContent = text;
+        walletFeedback.style.color = color;
+        setTimeout(() => {
+            walletFeedback.textContent = "";
+        }, 3000);
+    }
+}
+
+
 
 // Copy Wallet Address
 function copyWallet(address){
@@ -482,3 +538,139 @@ supportForm.addEventListener('submit', e => {
   supportForm.reset();
   showMsg(supportMsg, "✅ Support ticket submitted successfully!", "success");
 });
+
+
+
+
+// Function to handle clicking a plan from the Plans Page
+document.querySelectorAll('#investmentPlans .plan-card').forEach(card => {
+    card.addEventListener('click', () => {
+        const planName = card.dataset.plan;
+        const min = card.dataset.min;
+        const max = card.dataset.max;
+
+        // 1. Switch to the Deposit Page
+        switchPage('depositPage');
+
+        // 2. Trigger the existing deposit logic
+        // We find the matching card on the deposit page and click it programmatically
+        const targetPlan = document.querySelector(`#depositPage .plan-card[data-plan="${planName}"]`);
+        if (targetPlan) {
+            targetPlan.click();
+        }
+    });
+});
+
+// Update your switchPage function to handle scrolling to top
+function switchPage(pageId) {
+    // Hide all pages
+    document.querySelectorAll('.page').forEach(page => {
+        page.classList.remove('active');
+        page.style.display = 'none';
+    });
+
+    // Show selected page
+    const activePage = document.getElementById(pageId);
+    if (activePage) {
+        activePage.classList.add('active');
+        activePage.style.display = 'block';
+    }
+
+    // Close sidebar on mobile
+    if (window.innerWidth < 768) {
+        document.getElementById('sidebar').classList.remove('active');
+        document.getElementById('overlay').classList.remove('active');
+    }
+    
+    window.scrollTo(0, 0);
+}
+
+
+
+
+// Function to update ongoing investments (example logic)
+function updateInvestmentProgress() {
+    // In a real app, you would fetch these from a database
+    const investments = document.querySelectorAll('.ongoing-card');
+    
+    investments.forEach(card => {
+        // You could dynamically update the 'Ends in' timer here
+        // Or update the progress bar width based on time elapsed
+    });
+}
+
+
+// Function for the Re-invest button
+function reinvest(planName, amount) {
+    // We use a custom styled confirmation if possible, but alert works for now
+    const confirmed = confirm(`Are you sure you want to re-invest your $${amount} capital back into ${planName}?`);
+    
+    if (confirmed) {
+        // Show the orange feedback message we built earlier
+        showWalletMsg("Success! Capital re-invested. Your new plan is now active.");
+        
+        // In a real scenario, you'd trigger a function here to 
+        // refresh the ongoingInvestment list from your database
+    }
+}
+
+// Function for Withdraw Profit (navigates to the withdraw page)
+function withdrawInvestmentProfit(amount) {
+    // Pre-fill the withdrawal amount if you want to be fancy
+    const withdrawInput = document.getElementById('withdrawAmount');
+    if(withdrawInput) {
+        withdrawInput.value = amount;
+    }
+    
+    // Navigate to withdrawal page
+    switchPage('withdrawPage');
+    
+    // Show a helpful tip
+    setTimeout(() => {
+        showWalletMsg(`Ready to withdraw your $${amount} profit.`);
+    }, 500);
+}
+
+
+function startInvestmentTimers() {
+    setInterval(() => {
+        const timers = document.querySelectorAll('.timer');
+
+        timers.forEach(timer => {
+            const endTime = new Date(timer.getAttribute('data-endtime')).getTime();
+            const now = new Date().getTime();
+            const distance = endTime - now;
+
+            if (distance < 0) {
+                timer.innerHTML = "Completed!";
+                timer.style.color = "#28a745";
+                // Optionally: trigger a function to refresh the card to "Completed" state
+                return;
+            }
+
+            // Time calculations for hours, minutes and seconds
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result
+            timer.innerHTML = `${hours}h ${minutes}m ${seconds}s`;
+        });
+    }, 1000);
+}
+
+// Call the function when the script loads
+startInvestmentTimers();
+
+
+// Calculate progress percentage (Example assumes a 48-hour plan)
+const totalDuration = 48 * 60 * 60 * 1000; // 48 hours in ms
+const elapsed = totalDuration - distance;
+const progressPercent = Math.min(100, Math.max(0, (elapsed / totalDuration) * 100));
+
+// Find the bar related to this specific timer and update it
+const card = timer.closest('.ongoing-card');
+const bar = card.querySelector('.progress-bar');
+if (bar) {
+    bar.style.width = progressPercent + "%";
+}

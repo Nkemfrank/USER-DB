@@ -17,6 +17,8 @@
         <li onclick="switchPage('homePage')">Home</li>
         <li onclick="switchPage('depositPage')">Deposit</li>
         <li onclick="switchPage('withdrawPage')">Withdraw</li>
+        <li onclick="switchPage('investmentPlans')">Investment Plans</li>
+        <li onclick="switchPage('ongoingInvestment')">ongoing Investment</li>
         <li onclick="switchPage('transferPage')">Transfer</li>
         <li onclick="switchPage('transactionsPage')">Transactions</li>
         <li onclick="switchPage('walletPage')">Wallet</li>
@@ -87,10 +89,162 @@
     </div>
     <p id="copyMsg" style="color: var(--deposit); display:none; margin-top:10px;">Referral link copied!</p>
 </div>
-
 </div>
 
 <!-- DEPOSIT MULTI-STEP -->
+ <div class="page" id="investmentPlans">
+    <div class="plans-container">
+        <h2 style="margin-bottom: 20px;">Available Investment Plans</h2>
+        <div class="plans-grid">
+            <div class="plan-card" data-plan="PLAN 1 (10%)" data-min="100" data-max="2999">
+                <div class="plan-badge">Most Popular</div>
+                <h3>🔰 PLAN 1 (10%)</h3>
+                <div class="plan-details">
+                    <p><span>Minimum:</span> <strong>$100</strong></p>
+                    <p><span>Maximum:</span> <strong>$2,999</strong></p>
+                    <p><span>ROI:</span> <strong style="color: #28a745;">10%</strong></p>
+                    <p><span>Duration:</span> <strong>24 Hours</strong></p>
+                </div>
+                <button class="invest-now-btn">Invest Now</button>
+            </div>
+
+            <div class="plan-card" data-plan="PLAN 2 (20%)" data-min="3000" data-max="9999">
+                <h3>🔰 PLAN 2 (20%)</h3>
+                <div class="plan-details">
+                    <p><span>Minimum:</span> <strong>$3,000</strong></p>
+                    <p><span>Maximum:</span> <strong>$9,999</strong></p>
+                    <p><span>ROI:</span> <strong style="color: #28a745;">20%</strong></p>
+                    <p><span>Duration:</span> <strong>48 Hours</strong></p>
+                </div>
+                <button class="invest-now-btn">Invest Now</button>
+            </div>
+
+            <div class="plan-card" data-plan="PLAN 3 (30%)" data-min="1000" data-max="unlimited">
+                <h3>🔰 PLAN 3 (30%)</h3>
+                <div class="plan-details">
+                    <p><span>Minimum:</span> <strong>$1,000</strong></p>
+                    <p><span>Maximum:</span> <strong>Unlimited</strong></p>
+                    <p><span>ROI:</span> <strong style="color: #28a745;">30%</strong></p>
+                    <p><span>Duration:</span> <strong>7 Days</strong></p>
+                </div>
+                <button class="invest-now-btn">Invest Now</button>
+            </div>
+
+            <div class="plan-card" data-plan="PLAN 4 (50%)" data-min="10000" data-max="49999">
+                <h3>🔰 PLAN 4 (50%)</h3>
+                <div class="plan-details">
+                    <p><span>Minimum:</span> <strong>$10,000</strong></p>
+                    <p><span>Maximum:</span> <strong>$49,999</strong></p>
+                    <p><span>ROI:</span> <strong style="color: #28a745;">50%</strong></p>
+                    <p><span>Duration:</span> <strong>48 Hours</strong></p>
+                </div>
+                <button class="invest-now-btn">Invest Now</button>
+            </div>
+
+            <div class="plan-card" data-plan="PLAN 5 (100%)" data-min="50000" data-max="unlimited">
+                <h3>🔰 PLAN 5 (100%)</h3>
+                <div class="plan-details">
+                    <p><span>Minimum:</span> <strong>$50,000</strong></p>
+                    <p><span>Maximum:</span> <strong>Unlimited</strong></p>
+                    <p><span>ROI:</span> <strong style="color: #28a745;">100%</strong></p>
+                    <p><span>Duration:</span> <strong>72 Hours</strong></p>
+                </div>
+                <button class="invest-now-btn">Invest Now</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="page" id="ongoingInvestment">
+    <div class="investment-header">
+        <h2>Ongoing Investments</h2>
+        <div class="investment-summary">
+            <div class="sum-box">
+                <p>Active Capital</p>
+                <h3>$ 12,500.00</h3>
+            </div>
+            <div class="sum-box">
+                <p>Expected ROI</p>
+                <h3 style="color: #28a745;">+ $ 2,140.00</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="active-investments-list" id="activeInvestmentsList">
+
+        <div class="ongoing-card completed">
+            <div class="ongoing-info">
+                <h4>PLAN 1 (10%)</h4>
+                <span class="badge-completed">Completed</span>
+            </div>
+            <div class="ongoing-details">
+                <p>Amount: <strong>$1,000</strong></p>
+                <p>Profit: <strong style="color: #28a745;">+$100</strong></p>
+            </div>
+            <div class="progress-container">
+                <div class="progress-bar" style="width: 100%;"></div>
+            </div>
+            <div class="ongoing-actions">
+                <button class="action-btn reinvest" onclick="reinvest('PLAN 1', 1000)">Re-invest</button>
+                <button class="action-btn withdraw-profit" onclick="switchPage('withdrawPage')">Withdraw</button>
+            </div>
+        </div>
+
+        <div class="ongoing-card" data-investment-id="1">
+    <div class="ongoing-info">
+        <h4>PLAN 4 (50%)</h4>
+        <span class="badge-running">Running</span>
+    </div>
+    <div class="ongoing-details">
+        <p>Amount: <strong>$10,000</strong></p>
+        <p>Profit: <strong style="color: #28a745;">+$5,000</strong></p>
+    </div>
+    <div class="progress-container">
+        <div class="progress-bar" id="bar-1" style="width: 45%;"></div>
+    </div>
+    <div class="ongoing-footer">
+        <p>Started: 19 Feb 2026</p>
+        <p>Remaining: <strong class="timer" data-endtime="2026-02-21T18:00:00">00h 00m 00s</strong></p>
+    </div>
+</div>
+    </div>
+
+    <div class="payout-history-section" style="margin-top: 40px;">
+    <h3 style="margin-bottom: 15px;">Payout History</h3>
+    <div class="history-table-container" style="background: rgba(255, 255, 255, 0.05); border-radius: 15px; overflow: hidden; border: 1px solid rgba(255, 255, 255, 0.1);">
+        <table style="width: 100%; border-collapse: collapse; text-align: left;">
+            <thead>
+                <tr style="background: rgba(255, 255, 255, 0.05); color: #888; font-size: 13px;">
+                    <th style="padding: 15px;">Plan</th>
+                    <th style="padding: 15px;">Capital</th>
+                    <th style="padding: 15px;">Payout</th>
+                    <th style="padding: 15px;">Date</th>
+                </tr>
+            </thead>
+            <tbody id="payoutHistoryBody" style="color: #eee; font-size: 14px;">
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 15px;">Plan 1 (10%)</td>
+                    <td style="padding: 15px;">$500.00</td>
+                    <td style="padding: 15px; color: #28a745;">+$50.00</td>
+                    <td style="padding: 15px;">12 Feb 2026</td>
+                </tr>
+                <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                    <td style="padding: 15px;">Plan 2 (20%)</td>
+                    <td style="padding: 15px;">$2,000.00</td>
+                    <td style="padding: 15px; color: #28a745;">+$400.00</td>
+                    <td style="padding: 15px;">08 Feb 2026</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</div>
+
+
+
 <div class="page" id="depositPage">
   <div class="plans active" id="plansSection">
     <h2>Select Investment Plan</h2>
@@ -202,15 +356,25 @@
 
 <!-- WITHDRAW MULTI-STEP -->
 <div class="page" id="withdrawPage">
-  <!-- STEP 1: Withdrawal Form -->
   <div class="form-section active" id="withdrawFormSection">
     <h2>Withdrawal Form</h2>
    
     <form id="withdrawForm">
       <div class="form-group">
+        <label>Withdraw From</label>
+        <select id="withdrawAccount" required>
+          <option value="">Select Account</option>
+          <option value="Main Balance">Main Balance ($12,500)</option>
+          <option value="Referral Bonus">Referral Bonus ($450)</option>
+          <option value="Interest Wallet">Interest Wallet ($1,200)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
         <label>Amount ($)</label>
         <input type="number" id="withdrawAmount" placeholder="Enter withdrawal amount" required>
       </div>
+
       <div class="form-group">
         <label>Wallet Type</label>
         <select id="withdrawWallet" required>
@@ -222,14 +386,29 @@
           <option value="BNB">BNB (BEP20)</option>
         </select>
       </div>
+
       <div class="form-group">
         <label>Wallet Address</label>
         <input type="text" id="withdrawAddress" placeholder="Enter wallet address" required>
       </div>
+
       <button type="submit" class="withdraw-btn">Submit Withdrawal</button>
       <div id="withdrawError" class="error"></div>
     </form>
   </div>
+
+  <div class="success-section" id="withdrawSuccessSection" style="display: none;">
+    <h2>Withdrawal Requested ✅</h2>
+    <div class="success-details">
+      <p><strong>Account:</strong> <span id="successAccount"></span></p>
+      <p><strong>Amount:</strong> <span id="successAmount"></span></p>
+      <p><strong>Wallet:</strong> <span id="successWallet"></span></p>
+      <p><strong>Address:</strong> <span id="successAddress"></span></p>
+    </div>
+    <button onclick="copyWithdrawDetails()" class="copy-btn">Copy Details</button>
+    <button onclick="resetWithdrawPage()" class="secondary-btn">New Withdrawal</button>
+  </div>
+</div>
 
   <!-- STEP 2: Success Confirmation -->
   <div class="success-section" id="withdrawSuccessSection">
@@ -299,37 +478,42 @@
 
 <!-- WALLET PAGE -->
 <div class="page" id="walletPage">
-  <div class="card-section">
-    <h3>Manage Wallets</h3>
+  <div class="dashboard-content-wrapper">
+    <div class="card-section">
+      <h3>Manage Wallets</h3>
 
-    <!-- Add Wallet Form -->
-    <form id="walletForm">
-      <div class="form-group">
-        <label for="walletType">Wallet Type</label>
-        <select id="walletType" required>
-          <option value="">Select Wallet</option>
-          <option value="BTC">Bitcoin (BTC)</option>
-          <option value="ETH">Ethereum (ETH)</option>
-          <option value="USDT-TRC20">USDT (TRC20)</option>
-          <option value="USDT-ERC20">USDT (ERC20)</option>
-          <option value="BNB">BNB (BEP20)</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label for="walletAddress">Wallet Address</label>
-        <input type="text" id="walletAddress" required placeholder="Enter wallet address">
-      </div>
-      <button type="submit">Add Wallet</button>
-      <div class="message" id="walletMsg"></div>
-    </form>
+      <form id="walletForm">
+        <div class="form-group">
+          <label for="newWalletType">Wallet Type</label>
+          <select id="newWalletType" required>
+            <option value="">Select Wallet</option>
+            <option value="BTC">Bitcoin (BTC)</option>
+            <option value="ETH">Ethereum (ETH)</option>
+            <option value="USDT-TRC20">USDT (TRC20)</option>
+            <option value="USDT-ERC20">USDT (ERC20)</option>
+            <option value="BNB">BNB (BEP20)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="newWalletAddress">Wallet Address</label>
+          <input type="text" id="newWalletAddress" required placeholder="Paste address here">
+        </div>
+        <button type="submit" class="action-btn reinvest" style="width: 100%;">Add Wallet</button>
+        <div id="walletFeedback" style="margin-top: 10px; text-align: center; height: 20px;"></div>
+      </form>
 
-    <!-- Wallet Cards -->
-    <div id="walletsContainer" style="margin-top:20px; display:grid; grid-template-columns:repeat(auto-fit,minmax(250px,1fr)); gap:15px;">
-      <!-- Wallet cards injected by JS -->
+      <hr style="margin: 30px 0; border: 0; border-top: 1px solid rgba(255,255,255,0.1);">
+
+      <div class="saved-wallets-section">
+        <h4 style="margin-bottom: 15px;">Your Saved Wallets</h4>
+        <div id="walletsContainer" class="stats-grid">
+          </div>
+        
+        <p id="noWallets" style="text-align: center; margin-top: 20px; color: #888;">
+          No wallets saved. Add your first wallet above.
+        </p>
+      </div>
     </div>
-    <p id="noWallets" style="display:none; text-align:center; margin-top:20px; color:var(--deposit);">
-      No wallets saved. Add one above to get started.
-    </p>
   </div>
 </div>
 
@@ -430,8 +614,9 @@
 
   </div>
 </div>
-
 </div>
+
+
 <div class="bottom-nav">
     <div onclick="switchPage('homePage')"><img src="resource/home (1).png" alt=""><br>Home</div>
     <div onclick="switchPage('depositPage')"><img src="resource/wallet (1).png" alt=""><br>Deposit</div>
