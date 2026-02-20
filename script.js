@@ -587,7 +587,6 @@ function switchPage(pageId) {
 
 
 
-
 // Function to update ongoing investments (example logic)
 function updateInvestmentProgress() {
     // In a real app, you would fetch these from a database
@@ -673,4 +672,24 @@ const card = timer.closest('.ongoing-card');
 const bar = card.querySelector('.progress-bar');
 if (bar) {
     bar.style.width = progressPercent + "%";
+}
+
+
+
+
+
+function copyReferralLink() {
+    const linkText = document.getElementById('userRefLink').innerText;
+    const msg = document.getElementById('refCopyMsg');
+
+    // Attempt to copy to clipboard
+    navigator.clipboard.writeText(linkText).then(() => {
+        msg.style.display = 'block';
+        // Hide message after 3 seconds
+        setTimeout(() => {
+            msg.style.display = 'none';
+        }, 3000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+    });
 }

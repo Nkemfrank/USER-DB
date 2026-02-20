@@ -19,6 +19,7 @@
         <li onclick="switchPage('withdrawPage')">Withdraw</li>
         <li onclick="switchPage('investmentPlans')">Investment Plans</li>
         <li onclick="switchPage('ongoingInvestment')">ongoing Investment</li>
+        <li onclick="switchPage('referralPage')">Referral System</li>
         <li onclick="switchPage('transferPage')">Transfer</li>
         <li onclick="switchPage('transactionsPage')">Transactions</li>
         <li onclick="switchPage('walletPage')">Wallet</li>
@@ -68,15 +69,47 @@
     </div>
 </div>
 
-<div class="transactions">
+<div class="transactions card-section">
     <h3>Recent Transactions</h3>
-    <table>
-        <tr><th>Date</th><th>Type</th><th>Amount</th><th>Status</th></tr>
-        <tr><td>15 Feb 2026</td><td>Deposit</td><td>$1,000</td><td class="status-success">Completed</td></tr>
-        <tr><td>14 Feb 2026</td><td>Withdrawal</td><td>$500</td><td class="status-pending">Pending</td></tr>
-        <tr><td>12 Feb 2026</td><td>Transfer</td><td>$300</td><td class="status-success">Completed</td></tr>
-        <tr><td>10 Feb 2026</td><td>Deposit</td><td>$2,000</td><td class="status-failed">Failed</td></tr>
-    </table>
+    
+    <div class="table-container" style="overflow-x: auto; margin-top: 15px;">
+        <table class="transaction-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Type</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>15 Feb 2026</td>
+                    <td>Deposit</td>
+                    <td>$1,000</td>
+                    <td><span class="status-badge success">Completed</span></td>
+                </tr>
+                <tr>
+                    <td>14 Feb 2026</td>
+                    <td>Withdrawal</td>
+                    <td>$500</td>
+                    <td><span class="status-badge pending">Pending</span></td>
+                </tr>
+                <tr>
+                    <td>12 Feb 2026</td>
+                    <td>Transfer</td>
+                    <td>$300</td>
+                    <td><span class="status-badge success">Completed</span></td>
+                </tr>
+                <tr>
+                    <td>10 Feb 2026</td>
+                    <td>Deposit</td>
+                    <td>$2,000</td>
+                    <td><span class="status-badge failed">Failed</span></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </div>
 
 <div class="referral">
@@ -352,6 +385,57 @@
 </div>
 
 <!-- Other Pages (Withdraw, Transfer, etc.) starts here -->
+ <div class="page" id="referralPage">
+    <div class="dashboard-content-wrapper">
+        <div class="card-section">
+            <h3 style="color: #ff8c00;">Referral Program</h3>
+            <p style="color: #888; margin-bottom: 20px; font-size: 14px;">
+                Earn 10% instant commission when your friends join and invest.
+            </p>
+            
+            <div class="ref-link-box" style="background: rgba(255, 255, 255, 0.05); padding: 15px; border-radius: 12px; border: 1px dashed rgba(255,140,0,0.5); display: flex; flex-wrap: wrap; gap: 10px; align-items: center; justify-content: space-between;">
+                <span id="userRefLink" style="font-size: 13px; color: #eee; word-break: break-all; flex: 1;">
+                    https://portprime.com/register?ref=User77
+                </span>
+                <button class="copy-btn" onclick="copyReferralLink()" style="padding: 8px 20px; font-size: 12px;">Copy Link</button>
+            </div>
+            <p id="refCopyMsg" style="color: #28a745; font-size: 12px; margin-top: 10px; display: none; text-align: center;">✅ Link copied!</p>
+
+            <div class="stats-grid" style="margin-top: 30px;">
+                <div class="stat-box">
+                    <p style="font-size: 12px; color: #888;">Total Referrals</p>
+                    <h3 style="margin: 5px 0;">12</h3>
+                </div>
+                <div class="stat-box">
+                    <p style="font-size: 12px; color: #888;">Commission Earned</p>
+                    <h3 style="margin: 5px 0; color: #28a745;">$ 450.00</h3>
+                </div>
+            </div>
+
+            <div class="transactions" style="margin-top: 30px; background: none; border: none; padding: 0;">
+                <h4 style="margin-bottom: 15px;">Referral History</h4>
+                <div style="overflow-x: auto;">
+                    <table style="width: 100%; min-width: 400px; border-collapse: collapse;">
+                        <thead>
+                            <tr style="color: #888; font-size: 12px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);">
+                                <th style="padding: 10px;">User</th>
+                                <th style="padding: 10px;">Date</th>
+                                <th style="padding: 10px; text-align: right;">Bonus</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 13px; color: #ddd;">
+                            <tr style="border-bottom: 1px solid rgba(255,255,255,0.05);">
+                                <td style="padding: 12px 10px;">John_Crypto</td>
+                                <td style="padding: 12px 10px;">Feb 20, 2026</td>
+                                <td style="padding: 12px 10px; text-align: right; color: #28a745;">+$50.00</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- WITHDRAW MULTI-STEP -->
