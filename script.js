@@ -103,8 +103,11 @@ depositForm.addEventListener('submit', function(e) {
 /* COPY FUNCTIONS */
 function copyWallet() {
   const walletText = document.getElementById('walletAddress').textContent;
+  const feedback = document.getElementById('copyFeedback');
+
   navigator.clipboard.writeText(walletText).then(() => {
-    alert("Wallet address copied!");
+    feedback.style.display = "inline";
+    setTimeout(() => { feedback.style.display = "none"; }, 2000);
   });
 }
 
@@ -115,6 +118,35 @@ function copyReferral() {
     msg.style.display = "block";
     setTimeout(() => msg.style.display = "none", 3000);
   });
+}
+
+function updateFileName() {
+  const fileInput = document.getElementById('proofUpload');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+  const submitBtn = document.getElementById('submitProofBtn');
+
+  if (fileInput.files.length > 0) {
+    fileNameDisplay.textContent = "Selected: " + fileInput.files[0].name;
+    fileNameDisplay.style.color = "#0d3b66"; // Change green to navy when file is picked
+    submitBtn.style.display = "block"; // Show the submit button
+  }
+}
+
+function submitProof() {
+  const statusMsg = document.getElementById('uploadStatus');
+  const submitBtn = document.getElementById('submitProofBtn');
+
+  statusMsg.style.color = "#0d3b66";
+  statusMsg.textContent = "Processing upload...";
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Uploading...";
+
+  // Simulate server delay
+  setTimeout(() => {
+    statusMsg.style.color = "#28a745";
+    statusMsg.textContent = "Proof submitted successfully! Awaiting verification.";
+    submitBtn.style.display = "none";
+  }, 2500);
 }
 
 
@@ -324,11 +356,16 @@ function removeWallet(index){
 }
 
 // Show message
-function showWalletMsg(text,type){
-  walletMsg.textContent = text;
-  walletMsg.className = message` ${type}`;
-  walletMsg.style.opacity = "1";
-  setTimeout(()=>walletMsg.style.opacity="0",3000);
+function showWalletMsg(textToDisplay) { 
+  const statusMsg = document.getElementById('uploadStatus');
+  if (statusMsg) {
+    // FIX: Use the parameter 'textToDisplay' instead of undefined 'message'
+    statusMsg.textContent = textToDisplay;
+    statusMsg.style.color = "#ff8c00";
+    
+    // Auto-hide after 3 seconds
+    setTimeout(() => { statusMsg.textContent = ""; }, 3000);
+  }
 }
 
 

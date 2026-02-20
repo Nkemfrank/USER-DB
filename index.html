@@ -160,14 +160,41 @@
   </div>
 
   <div class="success-section" id="successSection">
-    <h2>Deposit Submitted ✅</h2>
-    <p>Send the exact amount to the wallet below:</p>
-    <div class="wallet-box">
-      <p><strong>Company Wallet Address:</strong></p>
-      <p id="walletAddress">0x123456789ABCDEF9876543210ABCDEF</p>
-      <button class="copy-btn" onclick="copyWallet()">Copy Address</button>
+  <h2>Deposit Submitted ✅</h2>
+  <p>Send the exact amount to the wallet below:</p>
+  
+  <div class="wallet-box">
+    <p><strong>Company Wallet Address:</strong></p>
+    <p id="walletAddress">0x123456789ABCDEF9876543210ABCDEF</p>
+    <button class="copy-btn" onclick="copyWallet()">Copy Address</button>
+<span id="copyFeedback" style="display:none; color:#ff8c00; margin-left:10px; font-size:12px;">Copied!</span>
+  </div>
+
+  <div class="proof-container">
+    <div class="proof-card">
+      <h3>Payment Proof</h3>
+      <div class="upload-icon">
+        <svg viewBox="0 0 24 24" width="50" height="50" fill="none" stroke="#28a745" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="17 8 12 3 7 8"></polyline>
+          <line x1="12" y1="3" x2="12" y2="15"></line>
+        </svg>
+      </div>
+      <p id="fileNameDisplay">Upload Payment Proof</p>
+      
+      <input type="file" id="proofUpload" accept="image/*" hidden onchange="updateFileName()">
+      
+      <button type="button" class="browse-btn" onclick="document.getElementById('proofUpload').click()">
+        Browse Files
+      </button>
+      
+      <button type="button" class="submit-proof-btn" id="submitProofBtn" onclick="submitProof()" style="display:none;">
+        Confirm Submission
+      </button>
+      <p id="uploadStatus"></p>
     </div>
   </div>
+</div>
 </div>
 
 <!-- Other Pages (Withdraw, Transfer, etc.) starts here -->

@@ -410,3 +410,97 @@ label { display:block; margin-bottom:6px; font-weight:bold; color:var(--muted); 
   .card-section h3 { font-size: 1.1rem; }
   input, select, textarea, button { font-size: 13px; }
 }
+
+
+
+.upload-box {
+  background: #f9f9f9;
+  padding: 15px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.upload-box input[type="file"] {
+  display: block;
+  margin: 10px auto;
+  font-size: 14px;
+}
+
+.submit-proof-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.submit-proof-btn:hover {
+  background-color: #218838;
+}
+.proof-container {
+  margin-top: 30px;
+  display: flex;
+  justify-content: center;
+}
+
+.proof-card {
+  background-color: #d1e9f6; /* Light blue from image */
+  padding: 30px;
+  border-radius: 20px;
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+.proof-card h3 {
+  color: #0d3b66; /* Dark navy */
+  margin-bottom: 20px;
+  font-size: 24px;
+}
+
+.upload-icon {
+  margin-bottom: 10px;
+}
+
+.proof-card p {
+  color: #28a745; /* Green text from image */
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.browse-btn {
+  background-color: #0d3b66;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  width: 100%;
+  transition: 0.3s;
+}
+
+.browse-btn:hover {
+  background-color: #1a508b;
+}
+
+.submit-proof-btn {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 12px 30px;
+  border-radius: 8px;
+  cursor: pointer;
+  width: 100%;
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+#uploadStatus {
+  font-size: 14px;
+  margin-top: 10px;
+  color: #333;
+}
