@@ -676,8 +676,6 @@ if (bar) {
 
 
 
-
-
 function copyReferralLink() {
     const linkText = document.getElementById('userRefLink').innerText;
     const msg = document.getElementById('refCopyMsg');
@@ -692,4 +690,94 @@ function copyReferralLink() {
     }).catch(err => {
         console.error('Failed to copy: ', err);
     });
+}
+
+
+
+// Preview Profile Image
+function previewImage(event) {
+    const reader = new FileReader();
+    reader.onload = function() {
+        const output = document.getElementById('profileDisplay');
+        output.src = reader.result;
+        // Save image string to localStorage (optional, but keep it small)
+        localStorage.setItem('profile_img', reader.result);
+    };
+    reader.readAsDataURL(event.target.files[0]);
+}
+
+// --- Profile Image Preview ---
+function previewProfileImage(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = function() {
+        document.getElementById('profileDisplay').src = reader.result;
+        // Optional: Save image to localStorage
+        localStorage.setItem('port_prime_avatar', reader.result);
+    };
+    reader.readAsDataURL(file);
+}
+
+// --- Profile Data Management ---
+// Use a block-scoped listener to prevent "Identifier already declared" errors
+document.addEventListener('DOMContentLoaded', () => {
+    const updateForm = document.getElementById('profileUpdateForm');
+    
+    // Load existing data if available
+    const savedData = JSON.parse(localStorage.getItem('port_prime_user_profile'));
+    if (savedData) {
+        if(document.getElementById('inputFullName')) document.getElementById('inputFullName').value = savedData.fullName || "";
+        if(document.getElementById('inputEmail')) document.getElementById('inputEmail').value = savedData.email || "";
+        if(document.getElementById('topHeaderName')) document.getElementById('topHeaderName').textContent = savedData.fullName || "User Name";
+    }
+
+    if (updateForm) {
+        updateForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            // Unique IDs prevent the 'trim' of undefined error
+            const nameVal = document.getElementById('inputFullName').value.trim();
+            const emailVal = document.getElementById('inputEmail').value.trim();
+
+            if (!nameVal || !emailVal) {
+                showProfileStatus("Please fill required fields", "#ff4d4d");
+                return;
+            }
+
+            // Save to persistence
+            const profileObj = { fullName: nameVal, email: emailVal };
+            localStorage.setItem('port_prime_user_profile', JSON.stringify(profileObj));
+
+            // Update UI Header immediately
+            document.getElementById('topHeaderName').textContent = nameVal;
+
+            showProfileStatus("✅ Profile updated successfully!", "#28a745");
+        });
+    }
+});
+
+function showProfileStatus(text, color) {
+    const feedback = document.getElementById('profileUpdateMsg');
+    if (feedback) {
+        feedback.textContent = text;
+        feedback.style.color = color;
+        setTimeout(() => { feedback.textContent = ""; }, 3000);
+    }
+}
+
+
+
+function openLogoutModal() {
+    document.getElementById('logoutModal').style.display = 'flex';
+}
+
+function closeLogoutModal() {
+    document.getElementById('logoutModal').style.display = 'none';
+}
+
+function executeLogout() {
+    localStorage.removeItem('isLoggedIn');
+    window.location.href = "login.html";
 }
