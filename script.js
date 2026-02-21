@@ -600,17 +600,32 @@ function updateInvestmentProgress() {
 
 
 // Function for the Re-invest button
+let currentReinvestData = {}; // Temporary storage for modal action
+
 function reinvest(planName, amount) {
-    // We use a custom styled confirmation if possible, but alert works for now
-    const confirmed = confirm(`Are you sure you want to re-invest your $${amount} capital back into ${planName}?`);
+    // Store data for the confirm button
+    currentReinvestData = { planName, amount };
     
-    if (confirmed) {
-        // Show the orange feedback message we built earlier
-        showWalletMsg("Success! Capital re-invested. Your new plan is now active.");
-        
-        // In a real scenario, you'd trigger a function here to 
-        // refresh the ongoingInvestment list from your database
-    }
+    // Update modal text
+    const detailText = document.getElementById('reinvestDetails');
+    detailText.innerHTML = `You are about to re-invest <strong>$${amount}</strong> into <strong>${planName}</strong>. This action cannot be undone.`;
+    
+    // Show Modal
+    document.getElementById('reinvestModal').style.display = 'flex';
+}
+
+function closeReinvestModal() {
+    document.getElementById('reinvestModal').style.display = 'none';
+}
+
+function confirmReinvestment() {
+    // Perform the action
+    showWalletMsg(`Success! $${currentReinvestData.amount} re-invested into ${currentReinvestData.planName}.`);
+    
+    // Close modal
+    closeReinvestModal();
+    
+    // Optional: Refresh the UI or deduct balance logic here
 }
 
 // Function for Withdraw Profit (navigates to the withdraw page)
